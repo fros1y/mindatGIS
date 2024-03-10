@@ -45,4 +45,7 @@ class MindatAPI:
         return self.request(self.base_url + f"/localities/{locality_id}", params)
 
     def get_localities(self, params: Optional[Params] = None) -> Iterable[Any]:
-        return self.get_paged_list(self.base_url + "/localities", params)
+        results = self.get_paged_list(self.base_url + "/localities", params)
+        # HACK: Filter out localities without coordinates, represented by 0s
+        filtered = filter(lambda x: x["longitude"] != 0 and x["latitude"] != 0, results)
+        return filtered
