@@ -2,7 +2,7 @@ from osgeo import ogr, osr
 
 
 class SpatialiteWriter:
-    def __init__(self, db):
+    def __init__(self, db: str):
         self.db = db
         drvr = ogr.GetDriverByName("SQLite")
         self.ds = drvr.CreateDataSource(db, options=["SPATIALITE=yes"])
@@ -20,7 +20,7 @@ class SpatialiteWriter:
         del self.lr
         self.ds.Destroy()
 
-    def addFeature(self, id, name, description, x, y):
+    def addFeature(self, id: int, name: str, description: str, x: float, y: float):
         featureDefn = self.lr.GetLayerDefn()
         feature = ogr.Feature(featureDefn)
         feature.SetGeometry(ogr.CreateGeometryFromWkt(f"POINT ({x} {y})"))
