@@ -122,19 +122,6 @@ files = [
 ]
 
 [[package]]
-name = "gdal"
-version = "3.8.4"
-description = "GDAL: Geospatial Data Abstraction Library"
-optional = false
-python-versions = ">=3.6.0"
-files = [
-    {file = "GDAL-3.8.4.tar.gz", hash = "sha256:7c51e0ae7a7ccf43ad9e4bf435176baa9276653dfa16fd167c3632f6e7275207"},
-]
-
-[package.extras]
-numpy = ["numpy (>1.0.0)"]
-
-[[package]]
 name = "idna"
 version = "3.6"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -276,4 +263,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "4249a74250d72085bd0b9c9b18b1b6e1719b7dc9aaf0cdc886383e1bfe6229fc"
+content-hash = "7f148b7c97c1af356fa0bdc79a30aa20b22c598d061dd961d0f87b4f2d05b578"
