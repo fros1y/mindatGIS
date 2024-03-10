@@ -8,7 +8,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 requests-ratelimiter = "^0.6.0"
-gdal = "^3.8.4"
 
 
 [tool.poetry.group.dev.dependencies]
