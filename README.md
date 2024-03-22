@@ -4,9 +4,7 @@
 * I've created a GeoPackage of [Mindat.org](http://Mindat.org) data available for download in the Releases section.
 * There is a second version that merges Mindat data with USGS information on public lands.
 
-* The files are too big for Google Maps, but here is an small chunk as an example:
-
-<iframe src="https://www.google.com/maps/d/embed?mid=1GZtmYG1Iqn-nVRIDGEa4JFt6lIVqvt0&ehbc=2E312F&noprof=1" width="640" height="480"></iframe>
+* The files are too big for Google Maps, but here is an small chunk as an [example](https://www.google.com/maps/d/embed?mid=1GZtmYG1Iqn-nVRIDGEa4JFt6lIVqvt0&ehbc=2E312F&noprof=1&ll=40.58948792169205%2C-73.4593055&z=6).
 
 ## Mindat Opens Up
 Mindat is an amazing resource for learning about minerals and, for the rock collector, an awesome way to check out possible locations where those minerals might be found.  
