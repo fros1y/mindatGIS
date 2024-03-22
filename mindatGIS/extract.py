@@ -52,7 +52,7 @@ def build_geodataframe_from_dataframe(localities: pd.DataFrame) -> gpd.GeoDataFr
     gdf = gpd.GeoDataFrame(localities)
     gdf["geometry"] = gpd.points_from_xy(gdf["longitude"], gdf["latitude"])
     gdf.set_geometry("geometry", inplace=True)
-    gdf.crs = "WGS84"
+    gdf.crs = "EPSG:4326"
 
     return gdf
 
@@ -88,10 +88,10 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     localities = localities_to_pandas()
     print(localities)
-    # localities.to_file("extracts/localities.gpkg", driver="GPKG")
 
     geomaterials = geomaterials_to_pandas()
     geomaterials.rename(columns={"id": "geomaterial_id"}, inplace=True)
+
     # geomaterials contains a column 'locality' which is a list of locality IDs
     # We need to augment the localities to add a column that lists geomaterial ids for each location
     # We will also create a column in localities that lists the names of the geomaterials found at each location
@@ -120,5 +120,5 @@ if __name__ == "__main__":
     gdf = build_geodataframe_from_dataframe(localities_augmented)
 
     logging.info("Writing augmented localities to GeoPackage")
-    gdf.to_file("extracts/localities_augmented.gpkg", driver="GPKG")
+    gdf.to_file("extracts/mindat_localities.gpkg", driver="GPKG")
     logging.info("Done")
