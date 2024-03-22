@@ -2,7 +2,7 @@
 
 *TLDR;* 
 * I've created a GeoPackage of [Mindat.org](http://Mindat.org) data available for download in the [Releases section](https://github.com/fros1y/mindatGIS/releases/tag/v0.0.1).
-* There is a [second version](https://github.com/fros1y/mindatGIS/releases/download/v0.0.1/localities_access.gpkg) that merges Mindat data with USGS information on public lands.
+* There is a [second version](https://github.com/fros1y/mindatGIS/releases/download/v0.0.1/localities_access.gpkg) that merges Mindat data with [USGS information on public lands](https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-download).
 
 * The files are too big for Google Maps, but here is an small chunk as an [example](https://www.google.com/maps/d/embed?mid=1GZtmYG1Iqn-nVRIDGEa4JFt6lIVqvt0&ehbc=2E312F&noprof=1&ll=40.58948792169205%2C-73.4593055&z=6).
 
@@ -48,7 +48,7 @@ Things aren't entirely awesome yet, but I have hope!
   * It also lacks any sort of [coordinate reference system](https://datacarpentry.org/organization-geospatial/03-crs.html) to accompany the raw floating point latitude and longitude data.  
     * I'm just assuming EPSG:4326/WGS84.
   * This may just be unavoidable, given the venerable and non-GIS based data collection history, but who knows.
-* The "official" Python package for accessing the API is probably best skipped for now.  It doesn't do anything for throttling or sanity checking the data and is (currently)[https://github.com/ChuBL/OpenMindat/issues/5] limited to extracting to files for some reason.
+* The "official" Python package for accessing the API is probably best skipped for now.  It doesn't do anything for throttling or sanity checking the data and is [currently](https://github.com/ChuBL/OpenMindat/issues/5) limited to extracting to files for some reason.
 
 
 # Additional Requirements
