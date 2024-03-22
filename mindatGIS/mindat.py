@@ -2,6 +2,7 @@ import json
 import logging
 from requests_ratelimiter import LimiterSession
 from typing import Dict, Iterable, List, Union, Iterator, Generator, Any, Self, Optional
+from retry_requests import retry
 
 Params = Dict[str, str]
 
@@ -10,11 +11,11 @@ class MindatAPI:
     def __init__(
         self,
         api_key: str,
-        session: LimiterSession = LimiterSession(per_second=2),
+        session: LimiterSession = LimiterSession(per_second=1.5),
         base_url: str = "https://api.mindat.org",
     ) -> Self:
         self.api_key = api_key
-        self.session = session
+        self.session = retry(session)
         self.base_url = base_url
 
     def request(self, url: str, params: Optional[Params] = None) -> Any:
@@ -49,3 +50,10 @@ class MindatAPI:
         # HACK: Filter out localities without coordinates, represented by 0s
         filtered = filter(lambda x: x["longitude"] != 0 and x["latitude"] != 0, results)
         return filtered
+
+    def get_geomaterial(self, geomaterial_id: int, params: Optional[Params] = None):
+        return self.request(self.base_url + f"/geomaterials/{geomaterial_id}", params)
+
+    def get_geomaterials(self, params: Optional[Params] = Dict()):
+        params = params.update({"expand", "locality"})
+        return self.get_paged_list(self.base_url + "/geomaterials", params)

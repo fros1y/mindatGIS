@@ -8,6 +8,11 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 requests-ratelimiter = "^0.6.0"
+tqdm = "^4.66.2"
+retry-requests = "^2.0.0"
+geopandas = "^0.14.3"
+fiona = "^1.9.6"
+shapely = "^2.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
