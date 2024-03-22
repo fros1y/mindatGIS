@@ -3,6 +3,7 @@ import logging
 from requests_ratelimiter import LimiterSession
 from typing import Dict, Iterable, List, Union, Iterator, Generator, Any, Self, Optional
 from retry_requests import retry
+from locality import Locality
 
 Params = Dict[str, str]
 
@@ -42,18 +43,21 @@ class MindatAPI:
             response = self.request(response["next"])
             yield from response["results"]
 
-    def get_locality(self, locality_id: int, params: Optional[Params] = None):
-        return self.request(self.base_url + f"/localities/{locality_id}", params)
+    def get_locality(
+        self, locality_id: int, params: Optional[Params] = None
+    ) -> Optional[Locality]:
+        record = self.request(self.base_url + f"/localities/{locality_id}", params)
+        if record:
+            return Locality.from_dict(record)
 
-    def get_localities(self, params: Optional[Params] = None) -> Iterable[Any]:
+    def get_localities(self, params: Optional[Params] = None) -> Iterable[Locality]:
         results = self.get_paged_list(self.base_url + "/localities", params)
-        # HACK: Filter out localities without coordinates, represented by 0s
-        filtered = filter(lambda x: x["longitude"] != 0 and x["latitude"] != 0, results)
-        return filtered
+        for result in results:
+            yield Locality.from_dict(result)
 
     def get_geomaterial(self, geomaterial_id: int, params: Optional[Params] = None):
         return self.request(self.base_url + f"/geomaterials/{geomaterial_id}", params)
 
-    def get_geomaterials(self, params: Optional[Params] = Dict()):
-        params = params.update({"expand", "locality"})
+    def get_geomaterials(self, params: Optional[Params] = dict):
+        params = params.update({"expand": "locality"})
         return self.get_paged_list(self.base_url + "/geomaterials", params)

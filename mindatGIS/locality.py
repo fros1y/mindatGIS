@@ -1,118 +1,85 @@
 import datetime
-from typing import Any, Dict, Union, Type, TypeVar
-from attrs import define as _attrs_define
-from attrs import _attrs_field
+import logging
+from dataclasses import dataclass, field
+import dataclasses
+from typing import Optional
 from dateutil.parser import isoparse
 
-T = TypeVar("T", bound="Locality")
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
-@_attrs_define
+@dataclass
 class Locality:
-    id: int
-    longid: str
-    guid: str
-    revtxtd: str
-    description_short: str
-    latitude: float
-    longitude: float
-    langtxt: str
-    elements: str
-    country: str
-    coordsystem: int
-    parent: int
-    links: str
-    area: int
-    non_hierarchical: int
-    meteorite_type: int
-    company: int
-    company2: int
-    loc_group: int
-    status_year: str
-    company_year: str
-    discovered_before: int
-    discovery_year: int
-    level: int
-    locsinclude: str
-    locsexclude: str
-    wikipedia: str
-    osmid: str
-    geonames: int
-    txt: Union[None, str] = None
-    dateadd: Union[None, datetime.datetime] = None
-    datemodify: Union[None, datetime.datetime] = None
-    refs: Union[None, str] = None
-    age: Union[None, int] = None
-    loc_status: Union[None, int] = None
-    discovery_year_type: Union[str] = None
-    timestamp: Union[None, datetime.datetime] = None
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    locality_id: int
+    longid: Optional[str] = None
+    guid: Optional[str] = None
+    revtxtd: Optional[str] = None
+    description_short: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    langtxt: Optional[str] = None
+    elements: Optional[str] = None
+    country: Optional[str] = None
+    coordsystem: Optional[int] = None
+    parent: Optional[int] = None
+    links: Optional[str] = None
+    area: Optional[int] = None
+    non_hierarchical: Optional[int] = None
+    meteorite_type: Optional[int] = None
+    company: Optional[int] = None
+    company2: Optional[int] = None
+    loc_group: Optional[int] = None
+    status_year: Optional[str] = None
+    company_year: Optional[str] = None
+    discovered_before: Optional[int] = None
+    discovery_year: Optional[int] = None
+    level: Optional[int] = None
+    locsinclude: Optional[str] = None
+    locsexclude: Optional[str] = None
+    wikipedia: Optional[str] = None
+    osmid: Optional[str] = None
+    geonames: Optional[int] = None
+    txt: Optional[str] = None
+    dateadd: Optional[datetime.datetime] = None
+    datemodify: Optional[datetime.datetime] = None
+    refs: Optional[str] = None
+    age: Optional[int] = None
+    loc_status: Optional[int] = None
+    discovery_year_type: Optional[str] = None
+    timestamp: Optional[datetime.datetime] = None
+    additional_properties: dict = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        result = {
-            "id": self.id,
-            "longid": self.longid,
-            "guid": self.guid,
-            "revtxtd": self.revtxtd,
-            "description_short": self.description_short,
-            "latitude": self.latitude,
-            "longitude": self.longitude,
-            "langtxt": self.langtxt,
-            "elements": self.elements,
-            "country": self.country,
-            "coordsystem": self.coordsystem,
-            "parent": self.parent,
-            "links": self.links,
-            "area": self.area,
-            "non_hierarchical": self.non_hierarchical,
-            "meteorite_type": self.meteorite_type,
-            "company": self.company,
-            "company2": self.company2,
-            "loc_group": self.loc_group,
-            "status_year": self.status_year,
-            "company_year": self.company_year,
-            "discovered_before": self.discovered_before,
-            "discovery_year": self.discovery_year,
-            "level": self.level,
-            "locsinclude": self.locsinclude,
-            "locsexclude": self.locsexclude,
-            "wikipedia": self.wikipedia,
-            "osmid": self.osmid,
-            "geonames": self.geonames,
-            "txt": self.txt,
-            "dateadd": self.dateadd.isoformat() if self.dateadd else None,
-            "datemodify": self.datemodify.isoformat() if self.datemodify else None,
-            "refs": self.refs,
-            "age": self.age,
-            "loc_status": self.loc_status,
-            "discovery_year_type": self.discovery_year_type,
-            "timestamp": self.timestamp.isoformat() if self.timestamp else None,
+    @staticmethod
+    def from_dict(src_dict: dict) -> "Locality":
+        src_dict["locality_id"] = src_dict.pop("id")
+
+        # Convert '0' values to None for specific fields if necessary
+        fields_with_zeros = ["latitude", "longitude", "age", "loc_status"]
+        for field in fields_with_zeros:
+            if field in src_dict and src_dict[field] == 0:
+                src_dict[field] = None
+
+        # Handle date fields with error handling
+        datetime_fields = ["dateadd", "datemodify", "timestamp"]
+        for field in datetime_fields:
+            date_str = src_dict.get(field)
+            if date_str:
+                try:
+                    src_dict[field] = isoparse(date_str)
+                except ValueError:
+                    logger.warning(f"Invalid date format for '{field}': {date_str}")
+                    src_dict[field] = None
+
+        # Separate additional properties from known fields
+        known_fields = {field.name for field in dataclasses.fields(Locality)}
+        additional_properties = {
+            k: v for k, v in src_dict.items() if k not in known_fields
         }
-        result.update(self.additional_properties)
-        return result
+        src_dict = {k: v for k, v in src_dict.items() if k in known_fields}
 
-    @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
-        d["dateadd"] = isoparse(d["dateadd"]) if d.get("dateadd") else None
-        d["datemodify"] = isoparse(d["datemodify"]) if d.get("datemodify") else None
-        d["timestamp"] = isoparse(d["timestamp"]) if d.get("timestamp") else None
-
-        return cls(
-            **d,
-            additional_properties={
-                k: v for k, v in d.items() if k not in cls.__annotations__
-            }
-        )
-
-    def __getitem__(self, key: str) -> Any:
-        return self.additional_properties[key]
-
-    def __setitem__(self, key: str, value: Any) -> None:
-        self.additional_properties[key] = value
-
-    def __delitem__(self, key: str) -> None:
-        del self.additional_properties[key]
-
-    def __contains__(self, key: str) -> bool:
-        return key in self.additional_properties
+        # Create the Locality instance
+        locality_instance = Locality(**src_dict)
+        locality_instance.additional_properties = additional_properties
+        return locality_instance
