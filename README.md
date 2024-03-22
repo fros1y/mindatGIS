@@ -4,16 +4,22 @@
 * I've created a GeoPackage of [Mindat.org](http://Mindat.org) data available for download in the Releases section.
 * There is a second version that merges Mindat data with USGS information on public lands.
 
-## Mindat opens up
-Mindat is an amazing resource for learning about minerals and, for the rock collector, an awesome way to check out possible locations where those minerals might be found.  But as amazing as it may be, the data has historically been stuck in Mindat, with aggressive anti-scraping and "keep out" signs attached.  Luckily, this seems to be changing! 
+* The files are too big for Google Maps, but here is an small chunk as an example:
+
+<iframe src="https://www.google.com/maps/d/embed?mid=1GZtmYG1Iqn-nVRIDGEa4JFt6lIVqvt0&ehbc=2E312F&noprof=1" width="640" height="480"></iframe>
+
+## Mindat Opens Up
+Mindat is an amazing resource for learning about minerals and, for the rock collector, an awesome way to check out possible locations where those minerals might be found.  
+
+As amazing as it may be, the data has historically been stuck in Mindat, with aggressive anti-scraping and "keep out" signs attached.  Luckily, this seems to be changing! 
 
 With the publication of the [OpenMindat paper](https://rmets.onlinelibrary.wiley.com/doi/10.1002/gdj3.204) last May, new resources were invested into integrating Mindat information into the wider community. There is even an early start of a Python [API library](https://github.com/ChuBL/OpenMindat) and [some example code](https://github.com/ChuBL/How-to-Use-Mindat-API?tab=readme-ov-file) available!
 
-## GIS meet mineral data
+## GIS, Meet Mineral Data
 
-One of my personal goals for Mindat information has always been to put it on the map, literally.  Although there are small map embeds on the Mindat website, I really wanted to be able to load all of the localitiy information into QGIS or some other GIS package to develop the information.  
+One of my goals for Mindat information has always been to put it on the map, literally.  Although there are small map embeds on the Mindat website, I really wanted to be able to load all of the localitiy information into QGIS or some other GIS package to develop the information.  
 
-So I've wrapped some of the API with my own interface code, worked around bugs in the current API, and coded up a script to take in Mindat location and geomaterial information and prepare a GeoPackage for use in GIS software! (I use QGIS, but should work in anything OGC standards compliant.) 
+To get there, I've put together some interface code, worked around bugs in the current API, and coded up a script to take in Mindat location and geomaterial information and prepare a GeoPackage for use in GIS software! (I use QGIS, but should work in anything OGC standards compliant.) 
 
 ## Mineral Data, Meet Public Access
 
@@ -26,7 +32,7 @@ Along with `geopandas` and data from Mindat, that means that we can generate map
 >Of course, this information might be wrong in any number of ways and doesn't even try to cover local rules about mineral, so do your own checking and mind any posted signs. 
 But it is a great step towards figuring out new places to look for minerals to collect!
 
-## Pain points and cautionary notes
+## Pain Points
 
 Things aren't entirely awesome yet, but I have hope!
 
@@ -37,8 +43,12 @@ Things aren't entirely awesome yet, but I have hope!
 * The API itself is limited and buggy.  
   * There is no way, for example, to retrieve localities by geographic region. 
   * Indeed, trying country-based filtering for the United States [doesn't work](https://www.mindat.org/mesg-650453.html).  
-  * Nor is it possible to get the minerals (geomaterials) available for a specific locality, despite documentation suggesting so. [https://github.com/ChuBL/OpenMindat/issues/3]
-* Data hygeine is questionable. There may be better quality GeoJSON artifacts [eventually](https://github.com/ChuBL/OpenMindat/issues/7), but the current information has some sloppy [NA markers](https://github.com/ChuBL/OpenMindat/issues/6) and lacks any sort of [coordinate reference system](https://datacarpentry.org/organization-geospatial/03-crs.html) to accompany the raw floating point latitude and longitude data.  I'm just assuming EPSG:4326/WGS84.
+  * It cannot (currently)[https://github.com/ChuBL/OpenMindat/issues/3] provide the minerals (geomaterials) available for a specific locality, despite documentation suggesting so. 
+    * I've "worked around" this by downloading *all* of the geomaterial information (which does include locality IDs) and joined that to the locality information.
+* Data hygeine is questionable. 
+  * There may be better quality GeoJSON artifacts [eventually](https://github.com/ChuBL/OpenMindat/issues/7), but the current information has some sloppy [NA markers](https://github.com/ChuBL/OpenMindat/issues/6)
+  * It also lacks any sort of [coordinate reference system](https://datacarpentry.org/organization-geospatial/03-crs.html) to accompany the raw floating point latitude and longitude data.  
+    * I'm just assuming EPSG:4326/WGS84.
   * This may just be unavoidable, given the venerable and non-GIS based data collection history, but who knows.
 * The "official" Python package for accessing the API is probably best skipped for now.  It doesn't do anything for throttling or sanity checking the data and is (currently)[https://github.com/ChuBL/OpenMindat/issues/5] limited to extracting to files for some reason.
 
