@@ -1,8 +1,8 @@
 # MindatGIS
 
 *TLDR;* 
-* I've created a GeoPackage of [Mindat.org](http://Mindat.org) data available for download in the Releases section.
-* There is a second version that merges Mindat data with USGS information on public lands.
+* I've created a GeoPackage of [Mindat.org](http://Mindat.org) data available for download in the [Releases section](https://github.com/fros1y/mindatGIS/releases/tag/v0.0.1).
+* There is a [second version](https://github.com/fros1y/mindatGIS/releases/download/v0.0.1/localities_access.gpkg) that merges Mindat data with USGS information on public lands.
 
 * The files are too big for Google Maps, but here is an small chunk as an [example](https://www.google.com/maps/d/embed?mid=1GZtmYG1Iqn-nVRIDGEa4JFt6lIVqvt0&ehbc=2E312F&noprof=1&ll=40.58948792169205%2C-73.4593055&z=6).
 
