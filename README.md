@@ -4,8 +4,8 @@
 * I've created a GeoPackage of [Mindat.org](http://Mindat.org) data available for download in the [Releases section](https://github.com/fros1y/mindatGIS/releases/tag/v0.0.1).
 * There is a [second version](https://github.com/fros1y/mindatGIS/releases/download/v0.0.1/localities_access.gpkg) that merges Mindat data with [USGS information on public lands](https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-download).
 
-* The files are too big for Google Maps, but here is an small chunk as an [example](https://www.google.com/maps/d/embed?mid=1GZtmYG1Iqn-nVRIDGEa4JFt6lIVqvt0&ehbc=2E312F&noprof=1&ll=40.58948792169205%2C-73.4593055&z=6).
-
+* This is a lot of data for Google Earth (and way too much for Google Maps, mostly), but I have made KML files (with formatting) for the Mindat + USGS version.  I've also split the KMLs up by country and, for the USA, by state.  There is a zip file in the Releases.
+   
 ## Mindat Opens Up
 Mindat is an amazing resource for learning about minerals and, for the rock collector, an awesome way to check out possible locations where those minerals might be found.  
 
